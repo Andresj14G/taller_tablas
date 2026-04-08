@@ -1,5 +1,6 @@
-/*
+/* ========================================================
    FUNCIÓN PRINCIPAL: generarTablas()
+   ========================================================
    1. Lee los valores de los 3 inputs.
    2. Valida que los datos sean correctos.
    3. Limpia el área de resultados.
@@ -9,15 +10,15 @@
       c. Aplica un color de cabecera rotativo.
       d. Inserta la tarjeta en el grid.
    5. Muestra la sección de resultados con animación.
-*/
-function generarTablas() {
-  // --- 1 LEER INPUTS ---
+======================================================== */
+function generarTablas(hacerScroll = true) {
+  // --- 1. LEER INPUTS ---
   const inicio  = parseInt(document.getElementById('tablaInicio').value, 10);
   const fin     = parseInt(document.getElementById('tablaFin').value,    10);
   const hasta   = parseInt(document.getElementById('hasta').value,       10);
   const errorEl = document.getElementById('errorMsg');
 
-  // --- 2 VALIDACIÓN ---
+  // --- 2. VALIDACIÓN ---
   errorEl.classList.remove('visible');
 
   if (isNaN(inicio) || isNaN(fin) || isNaN(hasta)) {
@@ -101,10 +102,12 @@ function generarTablas() {
   document.getElementById('resultsSubtitle').textContent =
     `${fin - inicio + 1} tabla(s) generadas · multiplicaciones del 1 al ${hasta}`;
 
-  // Scroll suave hacia los resultados
-  setTimeout(() => {
-    section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 100);
+  // Scroll suave hacia los resultados (solo si el usuario presionó el botón)
+  if (hacerScroll) {
+    setTimeout(() => {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }
 }
 
 /* Muestra mensaje de error */
@@ -115,4 +118,5 @@ function mostrarError(msg) {
 }
 
 // Generar al cargar la página con valores por defecto
-window.addEventListener('DOMContentLoaded', generarTablas);
+// Al cargar la página se generan las tablas por defecto pero sin hacer scroll
+window.addEventListener('DOMContentLoaded', () => generarTablas(false));
